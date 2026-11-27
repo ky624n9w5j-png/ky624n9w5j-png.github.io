@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0c0f16">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="投资工作台">
+<title>Mina 的投资工作台</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 17l5-6 4 3 5-7 4 4"/><path d="M3 21h18"/>
+        </svg>
+      </div>
+      <div class="brand-text"><strong>投资工作台</strong><span>MINA · DESK</span></div>
+    </div>
+
+    <nav class="nav" id="mainNav">
+      <button class="nav-item active" data-view="overview">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        <span>总览</span><em class="nav-badge" id="navAlertBadge" hidden>0</em>
+      </button>
+      <button class="nav-item" data-view="portfolio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18"/></svg>
+        <span>持仓</span>
+      </button>
+      <button class="nav-item" data-view="radar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/><path d="M12 12 19 5"/></svg>
+        <span>标的雷达</span>
+      </button>
+      <button class="nav-item" data-view="research">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>
+        <span>投研日志</span>
+      </button>
+      <button class="nav-item" data-view="learning">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 4 9 5-9 5-9-5z"/><path d="m3 14 9 5 9-5"/></svg>
+        <span>知识学习</span>
+      </button>
+      <button class="nav-item" data-view="alerts">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
+        <span>卖出提醒</span>
+      </button>
+      <button class="nav-item" data-view="capital">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20M6 15h4"/></svg>
+        <span>资金仓位</span>
+      </button>
+      <button class="nav-item" data-view="performance">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m5 16 4-5 4 3 6-8"/><path d="M19 6h-4M19 6v4"/></svg>
+        <span>绩效复盘</span>
+      </button>
+      <button class="nav-item" data-view="calendar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <span>事件日历</span>
+      </button>
+      <button class="nav-item" data-view="sync">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/></svg>
+        <span>行情同步</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="quote-card">
+        <div class="quote-mark">“</div>
+        <p id="dailyQuote">计划你的交易，交易你的计划。</p>
+        <span class="quote-label">交易纪律</span>
+      </div>
+      <div class="storage-hint">数据仅保存在此设备浏览器</div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div>
+        <p class="date-text" id="dateText">—</p>
+        <h1 class="greeting" id="greeting">你好，Mina</h1>
+        <p class="sub-greeting" id="viewSubtitle">今天也把重要的事，一件件做好。</p>
+      </div>
+      <div class="topbar-right">
+        <div class="data-tools">
+          <button class="btn-ghost" id="exportBtn" title="导出数据备份">导出</button>
+          <button class="btn-ghost" id="importBtn" title="从备份导入数据">导入</button>
+          <input type="file" id="importFile" accept="application/json,.json" hidden>
+        </div>
+        <div class="clock-box">
+          <div class="clock" id="clock">00:00:00</div>
+          <div class="clock-label" id="marketStatus">当地时间</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="demo-banner" id="demoBanner" hidden>
+      <span class="demo-dot"></span>
+      <div><b>当前为演示数据</b> — 行情、持仓与标的均为占位示例，不是真实市场数据。开始使用前请清空。</div>
+      <button class="btn-ghost" id="clearDemoBtn">清空演示数据</button>
+    </div>
+
+    <!-- ============ 总览 ============ -->
+    <section class="view active" id="view-overview">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div><div class="stat-info"><span class="stat-label">今日待办</span><strong class="stat-value" id="statRemaining">0</strong></div></div>
+        <div class="stat-card"><div class="stat-icon green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></div><div class="stat-info"><span class="stat-label">组合市值</span><strong class="stat-value" id="statValue">¥0</strong></div></div>
+        <div class="stat-card"><div class="stat-icon orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg></div><div class="stat-info"><span class="stat-label">累计盈亏</span><strong class="stat-value" id="statPnl">0.00%</strong></div></div>
+        <div class="stat-card"><div class="stat-icon blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg></div><div class="stat-info"><span class="stat-label">待处理提醒</span><strong class="stat-value" id="statAlerts">0</strong></div></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="panel progress-panel">
+          <div class="panel-head"><div><h2>今日进度</h2><p>待办完成情况一览</p></div></div>
+          <div class="donut-wrap">
+            <svg viewBox="0 0 120 120" class="donut">
+              <defs><linearGradient id="donutGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#5b8cff"/><stop offset="100%" stop-color="#7aa2ff"/></linearGradient></defs>
+              <circle cx="60" cy="60" r="52" class="donut-track"/><circle cx="60" cy="60" r="52" class="donut-value" id="donutValue"/>
+            </svg>
+            <div class="donut-center"><strong id="donutPercent">0%</strong><span>已完成</span></div>
+          </div>
+          <div class="progress-legend"><div><span class="legend-dot done"></span>已完成 <b id="legendDone">0</b></div><div><span class="legend-dot pending"></span>待完成 <b id="legendPending">0</b></div></div>
+        </div>
+
+        <div class="panel alerts-preview-panel">
+          <div class="panel-head"><div><h2>纪律提醒</h2><p>按你设定的规则自动触发</p></div><button class="text-btn" data-goto="alerts">查看全部 →</button></div>
+          <div class="mini-alert-list" id="miniAlerts"></div>
+        </div>
+
+        <div class="panel keytask-panel">
+          <div class="panel-head"><div><h2>重要任务进展</h2><p>盯住几件真正关键的事</p></div><span class="count-badge" id="keyTaskCount">0 项</span></div>
+          <div class="add-row"><input type="text" id="keyTaskInput" placeholder="添加一个重要任务，回车确认" maxlength="60"><button class="btn-primary" id="addKeyTaskBtn" title="添加"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
+          <div class="keytask-list" id="keyTaskList"></div>
+          <div class="empty-state" id="keyTaskEmpty" hidden>还没有重要任务，先添加一件吧。</div>
+        </div>
+
+        <div class="panel todo-panel">
+          <div class="panel-head"><div><h2>待办清单</h2><p>把今天要做的事写下来</p></div><div class="filters"><button class="filter-btn active" data-filter="all">全部</button><button class="filter-btn" data-filter="active">待办</button><button class="filter-btn" data-filter="done">已完成</button></div></div>
+          <div class="add-row"><input type="text" id="todoInput" placeholder="添加待办事项，回车确认" maxlength="100"><select id="todoPriority" title="优先级"><option value="high">高优先</option><option value="mid" selected>中优先</option><option value="low">低优先</option></select><button class="btn-primary" id="addTodoBtn" title="添加"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button></div>
+          <div class="todo-list" id="todoList"></div>
+          <div class="empty-state" id="todoEmpty" hidden>这里空空的，添加第一条待办吧。</div>
+        </div>
+
+        <div class="panel notes-panel">
+          <div class="panel-head"><div><h2>快速记录</h2><p>想到什么，随手记一笔</p></div><span class="count-badge" id="noteCount">0 条</span></div>
+          <div class="note-compose"><textarea id="noteInput" placeholder="记录想法、灵感或临时事项…" maxlength="500"></textarea><div class="compose-foot"><span class="compose-hint">Ctrl / ⌘ + Enter 快速保存</span><button class="btn-primary" id="addNoteBtn">记一笔</button></div></div>
+          <div class="notes-list" id="notesList"></div>
+          <div class="empty-state" id="notesEmpty" hidden>还没有记录，写下第一条吧。</div>
+        </div>
+
+        <div class="panel position-panel">
+          <div class="panel-head"><div><h2>持仓速览</h2><p>按市值排序</p></div><button class="text-btn" data-goto="portfolio">管理持仓 →</button></div>
+          <div class="mini-position-list" id="miniPositions"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 持仓 ============ -->
+    <section class="view" id="view-portfolio">
+      <div class="view-toolbar"><div><h2 class="view-title">持仓组合</h2><p class="view-desc">从组合视角看风险，不逐只点评</p></div><button class="btn-primary lg" data-form="holding">+ 添加持仓</button></div>
+
+      <div class="risk-grid" id="riskGrid"></div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h2>仓位结构</h2><p>长期 / 短期分账看，再拆行业暴露</p></div></div>
+        <div class="horizon-split" id="horizonSplit"></div>
+        <div class="allocation-wrap">
+          <div class="alloc-bar" id="allocBar"></div>
+          <div class="alloc-legend" id="allocLegend"></div>
+        </div>
+        <div class="risk-notes" id="riskNotes"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h2>持仓明细</h2><p>现价由你手动更新，盈亏按成本价计算</p></div><div class="head-tools"><div class="filters" id="horizonFilters"><button class="filter-btn active" data-hfilter="全部">全部</button><button class="filter-btn" data-hfilter="长期">长期</button><button class="filter-btn" data-hfilter="短期">短期</button></div><span class="count-badge" id="holdingCount">0 只</span></div></div>
+        <div class="holding-list" id="holdingList"></div>
+        <div class="empty-state" id="holdingEmpty" hidden>还没有持仓，点击右上角添加。</div>
+      </div>
+    </section>
+
+    <!-- ============ 标的雷达 ============ -->
+    <section class="view" id="view-radar">
+      <div class="view-toolbar"><div><h2 class="view-title">标的雷达</h2><p class="view-desc">发现新标的，先写清逻辑与失效条件，再谈价格</p></div><button class="btn-primary lg" data-form="idea">+ 添加标的</button></div>
+      <div class="panel">
+        <div class="panel-head"><div><h2>观察池</h2><p>没有强催化的标的，只放观察，不急于研究</p></div><div class="filters" id="ideaFilters"><button class="filter-btn active" data-istatus="全部">全部</button><button class="filter-btn" data-istatus="观察中">观察中</button><button class="filter-btn" data-istatus="待买入">待买入</button><button class="filter-btn" data-istatus="已排除">已排除</button></div></div>
+        <div class="idea-list" id="ideaList"></div>
+        <div class="empty-state" id="ideaEmpty" hidden>观察池是空的。</div>
+      </div>
+    </section>
+
+    <!-- ============ 投研日志 ============ -->
+    <section class="view" id="view-research">
+      <div class="view-toolbar"><div><h2 class="view-title">投研日志</h2><p class="view-desc">新闻要落到持仓，决策要留理由，复盘要留教训</p></div></div>
+      <div class="sub-tabs" id="researchTabs">
+        <button class="sub-tab active" data-rtab="news">新闻研究</button>
+        <button class="sub-tab" data-rtab="decisions">决策日志</button>
+        <button class="sub-tab" data-rtab="reviews">每日复盘</button>
+      </div>
+
+      <div class="sub-view active" id="rsub-news">
+        <div class="view-toolbar small"><div><p class="view-desc">事实 → 解读 → 映射 → 操作，四层缺一不可</p></div><button class="btn-primary" data-form="news">+ 记录资讯</button></div>
+        <div class="panel"><div class="panel-head"><div><h2>资讯与判断</h2><p>关联到你的持仓或观察池</p></div><span class="count-badge" id="newsCount">0 条</span></div><div class="news-list" id="newsList"></div><div class="empty-state" id="newsEmpty" hidden>还没有记录资讯。</div></div>
+      </div>
+
+      <div class="sub-view" id="rsub-decisions">
+        <div class="view-toolbar small"><div><p class="view-desc">每一笔买卖都要有可复盘的原始理由</p></div><button class="btn-primary" data-form="decision">+ 记录决策</button></div>
+        <div class="panel"><div class="panel-head"><div><h2>交易决策</h2><p>触发后禁止重写理由，只允许事后复盘</p></div><span class="count-badge" id="decisionCount">0 笔</span></div><div class="decision-list" id="decisionList"></div><div class="empty-state" id="decisionEmpty" hidden>还没有交易决策记录。</div></div>
+      </div>
+
+      <div class="sub-view" id="rsub-reviews">
+        <div class="view-toolbar small"><div><p class="view-desc">收盘后花三分钟，比盘中多做三笔交易更有价值</p></div><button class="btn-primary" data-form="review">+ 写今日复盘</button></div>
+        <div class="panel"><div class="panel-head"><div><h2>复盘记录</h2><p>市场情绪、执行偏差、明日观察重点</p></div><span class="count-badge" id="reviewCount">0 篇</span></div><div class="review-list" id="reviewList"></div><div class="empty-state" id="reviewEmpty" hidden>还没有复盘记录。</div></div>
+      </div>
+    </section>
+
+    <!-- ============ 知识学习 ============ -->
+    <section class="view" id="view-learning">
+      <div class="view-toolbar"><div><h2 class="view-title">理财知识学习</h2><p class="view-desc">把学习变成可追踪的进度，而不是收藏夹</p></div><button class="btn-primary lg" data-form="learning">+ 添加学习主题</button></div>
+      <div class="risk-grid" id="learningStats"></div>
+      <div class="panel">
+        <div class="panel-head"><div><h2>学习路线</h2><p>建议顺序：基础 → 基金 → 财报 → 估值 → 风控 → 技术分析 → 交易心理</p></div></div>
+        <div class="learning-list" id="learningList"></div>
+        <div class="empty-state" id="learningEmpty" hidden>还没有学习主题。</div>
+      </div>
+    </section>
+
+    <!-- ============ 卖出提醒 ============ -->
+    <section class="view" id="view-alerts">
+      <div class="view-toolbar"><div><h2 class="view-title">卖出与风控提醒</h2><p class="view-desc">价格 / 逻辑 / 时间三维纪律，触发即执行，不事后改规则</p></div><button class="btn-ghost" data-goto="portfolio">去更新现价</button></div>
+      <div class="risk-grid" id="alertStats"></div>
+      <div class="panel">
+        <div class="panel-head"><div><h2>当前触发</h2><p>根据你录入的现价与规则实时计算</p></div><span class="count-badge" id="alertCount">0 条</span></div>
+        <div class="alert-list" id="alertList"></div>
+        <div class="empty-state" id="alertEmpty" hidden>当前没有触发任何规则。保持纪律，继续观察。</div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h2>规则口径速查</h2><p>默认值可在持仓编辑中逐只调整</p></div></div>
+        <p class="rule-intro">两类账户使用不同的纪律模板，切换投资类型时会自动套用；所有数值都可逐只修改。短期看价格与验证速度，长期看逻辑与资本回报，参数不可混用。</p>
+        <div class="rule-ref">
+          <div class="rule-row"><b>成本止损</b><span>浮亏达到设定比例 → 先减半再观察，一次性退出需写明理由</span></div>
+          <div class="rule-row"><b>成本止盈</b><span>浮盈达到设定比例 → 判断预期兑现度与新催化，不机械卖出</span></div>
+          <div class="rule-row"><b>追踪止损</b><span>盈利达到启动线后开始跟踪，自最高浮盈回撤达到阈值时触发</span></div>
+          <div class="rule-row"><b>目标价</b><span>到价不等于必须卖；强势穿越应重估上限，触价即回落要警惕兑现风险</span></div>
+          <div class="rule-row"><b>时间止损</b><span>持有超过设定天数且几乎没动静 → 资金效率不合格，降仓或退出。短期按交易日算，长期按验证周期算</span></div>
+          <div class="rule-row"><b>逻辑止损</b><span>催化证伪 / 板块转弱 / 放量破位 / 公告澄清 → 手动标记「逻辑已破坏」即进入最高级提醒</span></div>
+        </div>
+        <p class="rule-footnote">关键位触碰不等于突破，向下破位需看收盘确认；盘中插针与趋势性破位要区分。触发后禁止重新评估持有理由——评估必须在触发前完成。</p>
+      </div>
+    </section>
+
+    <!-- ============ 资金仓位 ============ -->
+    <section class="view" id="view-capital">
+      <div class="view-toolbar"><div><h2 class="view-title">资金与仓位</h2><p class="view-desc">先定风险预算，再谈买什么；仓位是风控的第一道闸门</p></div><button class="btn-primary lg" data-form="cashflow">+ 记一笔资金流水</button></div>
+
+      <div class="risk-grid" id="capitalStats"></div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h2>账户设置</h2><p>总资金、目标仓位上限与单票风险预算——按你的纪律填写，不按行情填</p></div><button class="btn-ghost" data-form="account">编辑账户</button></div>
+        <div class="account-grid" id="accountGrid"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h2>仓位仪表</h2><p>当前仓位相对目标区间的位置</p></div></div>
+        <div class="gauge-wrap" id="positionGauge"></div>
+        <div class="risk-notes" id="capitalNotes"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h2>资金流水</h2><p>出入金与分红；保存时自动更新可用现金</p></div><span class="count-badge" id="cashflowCount">0 笔</span></div>
+        <div class="cashflow-list" id="cashflowList"></div>
+        <div class="empty-state" id="cashflowEmpty" hidden>还没有资金流水记录。</div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h2>盘前检查清单</h2><p>买入前逐项确认；有一项答不上来，就不该下单</p></div><button class="btn-primary" data-form="checklist">+ 新建检查</button></div>
+        <div class="checklist-list" id="checklistList"></div>
+        <div class="empty-state" id="checklistEmpty" hidden>还没有检查记录。任何一笔买入之前，先建一份。</div>
+      </div>
+    </section>
+
+    <!-- ============ 绩效复盘 ============ -->
+    <section class="view" id="view-performance">
+      <div class="view-toolbar"><div><h2 class="view-title">绩效与复盘</h2><p class="view-desc">用数字检验纪律，不用感觉评价自己</p></div><button class="btn-primary lg" data-form="snapshot">+ 记录今日净值</button></div>
+
+      <div class="risk-grid" id="perfStats"></div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h2>净值曲线</h2><p>记录总权益，观察回撤比观察收益更重要</p></div><span class="count-badge" id="snapshotCount">0 个快照</span></div>
+        <div class="chart-wrap" id="equityChart"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h2>交易质量统计</h2><p>从决策日志计算：胜率、盈亏比、执行偏差</p></div></div>
+        <div class="quality-grid" id="tradeQuality"></div>
+        <p class="rule-footnote">口径：仅统计已填写「验证结果」的决策。符合预期=胜，不符预期=负。样本少于 10 笔时统计不具备参考意义。</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h2>净值快照</h2><p>建议每周固定时间记录一次</p></div></div>
+        <div class="snapshot-list" id="snapshotList"></div>
+        <div class="empty-state" id="snapshotEmpty" hidden>还没有净值快照。</div>
+      </div>
+    </section>
+
+    <!-- ============ 事件日历 ============ -->
+    <section class="view" id="view-calendar">
+      <div class="view-toolbar"><div><h2 class="view-title">事件日历</h2><p class="view-desc">把已知的时间点提前摆上桌，减少临场反应</p></div><button class="btn-primary lg" data-form="event">+ 添加事件</button></div>
+      <div class="risk-grid" id="eventStats"></div>
+      <div class="panel">
+        <div class="panel-head"><div><h2>未来 30 天</h2><p>财报、解禁、分红除权、宏观数据与自己的计划</p></div><div class="filters" id="eventFilters"><button class="filter-btn active" data-efilter="全部">全部</button><button class="filter-btn" data-efilter="财报">财报</button><button class="filter-btn" data-efilter="宏观">宏观</button><button class="filter-btn" data-efilter="计划">计划</button></div></div>
+        <div class="event-list" id="eventList"></div>
+        <div class="empty-state" id="eventEmpty" hidden>未来 30 天没有事件。</div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h2>已过期 / 已完成</h2><p>保留作为复盘依据</p></div></div>
+        <div class="event-list" id="eventPast"></div>
+      </div>
+    </section>
+
+    <!-- ============ 行情同步 ============ -->
+    <section class="view" id="view-sync">
+      <div class="view-toolbar"><div><h2 class="view-title">行情与数据同步</h2><p class="view-desc">数字必须有来源和时点；拿不到的就留空，绝不编</p></div></div>
+
+      <div class="notice-box">
+        <b>数据边界说明</b>
+        <p>本应用是本地离线工作台，浏览器不能直接抓取交易所行情。现价的正确用法：让 AI 用金融数据工具检索真实行情 → 你把结果粘贴到这里批量更新 → 系统自动记录来源与时间戳。 News 同理。任何未标注来源与时间的数字，都不应作为决策依据。</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h2>批量更新现价</h2><p>每行一条：代码,名称,现价　支持逗号 / 制表符 / 空格分隔</p></div></div>
+        <div class="sync-compose">
+          <textarea id="quotePaste" rows="6" placeholder="600519,贵州茅台,1688.00&#10;000858,五粮液,138.50&#10;510300,沪深300ETF,3.852"></textarea>
+          <div class="sync-meta">
+            <label>数据来源<input type="text" id="quoteSource" placeholder="如：腾讯自选股 / 东方财富" maxlength="40"></label>
+            <label>数据时点<input type="text" id="quoteTime" placeholder="如：2026-11-26 15:00 收盘" maxlength="40"></label>
+          </div>
+          <div class="compose-foot"><span class="compose-hint">只更新代码能匹配上的持仓，其余忽略</span><button class="btn-primary" id="applyQuotesBtn">解析并更新</button></div>
+        </div>
+        <div class="parse-result" id="parseResult" hidden></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h2>数据台账</h2><p>每次批量更新的来源与时间都留痕</p></div></div>
+        <div class="ledger-list" id="syncLedger"></div>
+        <div class="empty-state" id="ledgerEmpty" hidden>还没有同步记录。</div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- 通用表单弹窗 -->
+<div class="modal-overlay" id="modalOverlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-head"><h3 id="modalTitle">添加记录</h3><button class="icon-btn" id="modalClose" title="关闭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <form id="modalForm"><div class="modal-body" id="modalBody"></div>
+      <div class="modal-foot"><button type="button" class="btn-ghost" id="modalCancel">取消</button><button type="submit" class="btn-primary">保存</button></div>
+    </form>
+  </div>
+</div>
+
+<!-- 导入预览弹窗 -->
+<div class="modal-overlay" id="importOverlay" hidden>
+  <div class="modal import-modal" role="dialog" aria-modal="true" aria-labelledby="importTitle">
+    <div class="modal-head"><h3 id="importTitle">导入预览</h3><button class="icon-btn" id="importClose" title="关闭"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <div class="modal-body" id="importBody"></div>
+    <div class="modal-foot import-foot">
+      <button type="button" class="btn-ghost" id="importCancel">取消</button>
+      <button type="button" class="btn-ghost" data-import-mode="replace">完整覆盖</button>
+      <button type="button" class="btn-ghost" data-import-mode="append">仅补新增</button>
+      <button type="button" class="btn-primary" data-import-mode="merge">智能合并（推荐）</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
